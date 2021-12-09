@@ -3,7 +3,6 @@ const server = require("net").createServer(aedes.handle);
 
 aedes.authenticate = (client, username, password, callback) => {
   console.log(`client ${client.id} sent an authentication request`);
-
   callback(null, true);
 };
 
