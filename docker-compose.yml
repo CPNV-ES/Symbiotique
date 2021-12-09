@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  broker:
+    container_name: broker
+    build:
+      context: .
+      dockerfile: ./apps/broker/Dockerfile
+    volumes:
+      - ./apps/broker:/home/node/app
+      - /home/node/app/node_modules
+    ports:
+      - 1883:1883
