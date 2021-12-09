@@ -11,3 +11,15 @@ services:
       - /home/node/app/node_modules
     ports:
       - 1883:1883
+  auth:
+    container_name: auth
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+    command: yarn run start:debug
+    ports:
+      - 3000:3000
+      - 9229:9229
+    volumes:
+      - ./apps/auth:/usr/src/app
+      - /usr/src/app/node_modules
