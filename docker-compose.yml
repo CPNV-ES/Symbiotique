@@ -23,6 +23,13 @@ services:
     volumes:
       - ./apps/auth:/usr/src/app
       - /usr/src/app/node_modules
+  auth-db:
+    container_name: auth-db
+    image: postgres:14
+    volumes:
+      - auth-db:/var/lib/postgres/data
+    ports:
+      - 5432:5432
   frontend:
     container_name: frontend
     build:
@@ -34,3 +41,6 @@ services:
     volumes:
       - ./apps/frontend:/usr/src/app
       - /usr/src/app/node_modules
+
+volumes:
+  auth-db:
