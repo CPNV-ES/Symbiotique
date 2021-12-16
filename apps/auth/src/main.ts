@@ -8,6 +8,9 @@ async function bootstrap() {
 
   app.use(helmet());
 
+  // Serialize the response object using the class-serializer package
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
   await app.listen(3001);
 }
 bootstrap();
