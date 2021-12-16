@@ -26,6 +26,10 @@ services:
   auth-db:
     container_name: auth-db
     image: postgres:14
+    environment:
+      - POSTGRES_USER=auth
+      - POSTGRES_PASSWORD=auth
+      - POSTGRES_DB=auth
     volumes:
       - auth-db:/var/lib/postgres/data
     ports:
