@@ -44,6 +44,17 @@ services:
       - auth-db:/var/lib/postgres/data
     ports:
       - 5432:5432
+  devices-db:
+    container_name: devices-db
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=devices
+      - POSTGRES_PASSWORD=devices
+      - POSTGRES_DB=devices
+    volumes:
+      - devices-db:/var/lib/postgres/data
+    ports:
+      - 5433:5432
   frontend:
     container_name: frontend
     build:
@@ -58,3 +69,4 @@ services:
 
 volumes:
   auth-db:
+  devices-db:
