@@ -12,6 +12,7 @@
 import { Switch, Route, Redirect } from "react-router-dom";
 import Home from "./pages/Home";
 import Devices from "./pages/Devices";
+import Details from "./pages/DeviceDetails";
 import Main from "./components/layout/Main";
 import "antd/dist/antd.css";
 import "./assets/styles/main.css";
@@ -24,7 +25,7 @@ function App() {
         <Main>
           <Route exact path="/dashboard" component={Home} />
           <Route exact path="/devices" component={Devices} />
-          <Redirect from="*" to="/dashboard" />
+          <Route exact path="/devices/:id" children={Details} />
         </Main>
       </Switch>
     </div>
