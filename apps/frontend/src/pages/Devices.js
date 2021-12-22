@@ -20,6 +20,8 @@ import {
   Typography,
 } from "antd";
 
+import { Link } from "react-router-dom";
+
 // Images
 import deviceImage from "../assets/images/device.png";
 
@@ -89,7 +91,7 @@ const data = [
       <>
         <div className="ant-employed">
           <span>23/04/18</span>
-          <a href="#">Edit</a>
+          <Link to={"/devices/1"}>Edit</Link>
         </div>
       </>
     ),
@@ -132,7 +134,7 @@ const data = [
       <>
         <div className="ant-employed">
           <span>23/04/18</span>
-          <a href="#">Edit</a>
+          <Link to={"/devices/2"}>Edit</Link>
         </div>
       </>
     ),
@@ -175,7 +177,7 @@ const data = [
       <>
         <div className="ant-employed">
           <span>N/A</span>
-          <a href="#">Configure</a>
+          <Link to={""}>Configure</Link>
         </div>
       </>
     ),
