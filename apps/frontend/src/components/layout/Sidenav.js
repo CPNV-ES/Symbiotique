@@ -10,16 +10,11 @@
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-// import { useState } from "react";
-import { Menu, Button } from "antd";
+import { Menu } from "antd";
 import { NavLink, useLocation } from "react-router-dom";
-import logo from "../assets/images/logo.png";
+import logo from "../../assets/images/logo.png";
 
-type SideNavProps = {
-  color: string;
-}
-
-function Sidenav({ color }: SideNavProps) {
+function Sidenav({ color }) {
   const { pathname } = useLocation();
   const page = pathname.replace("/", "");
 
@@ -72,7 +67,7 @@ function Sidenav({ color }: SideNavProps) {
     <>
       <div className="brand">
         <img src={logo} alt="" />
-        <span>Symbiotique devices</span>
+        <span>Muse Dashboard</span>
       </div>
       <hr />
       <Menu theme="light" mode="inline">

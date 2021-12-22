@@ -10,20 +10,16 @@
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import {ReactNode, useEffect, useState} from "react";
-import {useLocation} from "react-router-dom";
-import {Layout, Drawer, Affix} from "antd";
-import SideNav from "./SideNav";
-import Footer from "./Footer";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { Layout, Drawer, Affix } from "antd";
+import Sidenav from "./Sidenav";
 import Header from "./Header";
+import Footer from "./Footer";
 
-type DefaultLayoutProps = {
-  children: ReactNode;
-}
+const { Header: AntHeader, Content, Sider } = Layout;
 
-const {Header: AntHeader, Content, Sider} = Layout;
-
-function DefaultLayout({children}: DefaultLayoutProps) {
+function Main({ children }) {
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState("right");
   const [sidenavColor, setSidenavColor] = useState("#1890ff");
@@ -31,11 +27,11 @@ function DefaultLayout({children}: DefaultLayoutProps) {
   const [fixed, setFixed] = useState(false);
 
   const openDrawer = () => setVisible(!visible);
-  const handleSidenavType = (type: string) => setSidenavType(type);
-  const handleSidenavColor = (color: string) => setSidenavColor(color);
-  const handleFixedNavbar = (type: boolean) => setFixed(type);
+  const handleSidenavType = (type) => setSidenavType(type);
+  const handleSidenavColor = (color) => setSidenavColor(color);
+  const handleFixedNavbar = (type) => setFixed(type);
 
-  let {pathname} = useLocation();
+  let { pathname } = useLocation();
   pathname = pathname.replace("/", "");
 
   useEffect(() => {
@@ -76,9 +72,9 @@ function DefaultLayout({children}: DefaultLayoutProps) {
             className={`sider-primary ant-layout-sider-primary ${
               sidenavType === "#fff" ? "active-route" : ""
             }`}
-            style={{background: sidenavType}}
+            style={{ background: sidenavType }}
           >
-            <SideNav color={sidenavColor}/>
+            <Sidenav color={sidenavColor} />
           </Sider>
         </Layout>
       </Drawer>
@@ -94,9 +90,9 @@ function DefaultLayout({children}: DefaultLayoutProps) {
         className={`sider-primary ant-layout-sider-primary ${
           sidenavType === "#fff" ? "active-route" : ""
         }`}
-        style={{background: sidenavType}}
+        style={{ background: sidenavType }}
       >
-        <SideNav color={sidenavColor}/>
+        <Sidenav color={sidenavColor} />
       </Sider>
       <Layout>
         {fixed ? (
@@ -125,10 +121,10 @@ function DefaultLayout({children}: DefaultLayoutProps) {
           </AntHeader>
         )}
         <Content className="content-ant">{children}</Content>
-        <Footer/>
+        <Footer />
       </Layout>
     </Layout>
-  )
+  );
 }
 
-export default DefaultLayout
+export default Main;

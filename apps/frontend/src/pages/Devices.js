@@ -21,16 +21,14 @@ import {
 } from "antd";
 
 // Images
-import face from "../assets/images/face-1.jpg";
-import face2 from "../assets/images/face-2.jpg";
-import face3 from "../assets/images/face-3.jpg";
+import deviceImage from "../assets/images/device.png";
 
 const { Title } = Typography;
 
 // table code start
 const columns = [
   {
-    title: "AUTHOR",
+    title: "DEVICE",
     dataIndex: "name",
     key: "name",
     width: "32%",
@@ -47,9 +45,9 @@ const columns = [
     dataIndex: "status",
   },
   {
-    title: "EMPLOYED",
-    key: "employed",
-    dataIndex: "employed",
+    title: "REGISTERED",
+    key: "registered",
+    dataIndex: "registered",
   },
 ];
 
@@ -63,11 +61,10 @@ const data = [
             className="shape-avatar"
             shape="square"
             size={40}
-            src={face2}
-          ></Avatar>
+            src={deviceImage}
+          />
           <div className="avatar-info">
-            <Title level={5}>Michael John</Title>
-            <p>michael@mail.com</p>
+            <Title level={5}>Device name</Title>
           </div>
         </Avatar.Group>{" "}
       </>
@@ -75,8 +72,8 @@ const data = [
     function: (
       <>
         <div className="author-info">
-          <Title level={5}>Manager</Title>
-          <p>Organization</p>
+          <Title level={5}>Door sensor</Title>
+          <p>Kitchen</p>
         </div>
       </>
     ),
@@ -88,11 +85,11 @@ const data = [
         </Button>
       </>
     ),
-    employed: (
+    registered: (
       <>
         <div className="ant-employed">
           <span>23/04/18</span>
-          <a href="#pablo">Edit</a>
+          <a href="#">Edit</a>
         </div>
       </>
     ),
@@ -107,11 +104,10 @@ const data = [
             className="shape-avatar"
             shape="square"
             size={40}
-            src={face3}
-          ></Avatar>
+            src={deviceImage}
+          />
           <div className="avatar-info">
-            <Title level={5}>Alexa Liras</Title>
-            <p>alexa@mail.com</p>
+            <Title level={5}>Device name</Title>
           </div>
         </Avatar.Group>{" "}
       </>
@@ -119,22 +115,24 @@ const data = [
     function: (
       <>
         <div className="author-info">
-          <Title level={5}>Programator</Title>
-          <p>Developer</p>
+          <Title level={5}>Temperature sensor</Title>
+          <p>Bathroom</p>
         </div>
       </>
     ),
 
     status: (
       <>
-        <Button className="tag-badge">ONLINE</Button>
+        <Button type="primary" className="tag-primary">
+          ONLINE
+        </Button>
       </>
     ),
-    employed: (
+    registered: (
       <>
         <div className="ant-employed">
-          <span>23/12/20</span>
-          <a href="#pablo">Edit</a>
+          <span>23/04/18</span>
+          <a href="#">Edit</a>
         </div>
       </>
     ),
@@ -149,11 +147,10 @@ const data = [
             className="shape-avatar"
             shape="square"
             size={40}
-            src={face}
-          ></Avatar>
+            src={deviceImage}
+          />
           <div className="avatar-info">
-            <Title level={5}>Laure Perrier</Title>
-            <p>laure@mail.com</p>
+            <Title level={5}>Device name</Title>
           </div>
         </Avatar.Group>{" "}
       </>
@@ -161,24 +158,24 @@ const data = [
     function: (
       <>
         <div className="author-info">
-          <Title level={5}>Executive</Title>
-          <p>Projects</p>
+          <Title level={5}>Movement sensor</Title>
+          <p>Garden</p>
         </div>
       </>
     ),
 
     status: (
       <>
-        <Button type="primary" className="tag-primary">
-          ONLINE
+        <Button className="tag-badge">
+          OFFLINE
         </Button>
       </>
     ),
-    employed: (
+    registered: (
       <>
         <div className="ant-employed">
-          <span>03/04/21</span>
-          <a href="#pablo">Edit</a>
+          <span>N/A</span>
+          <a href="#">Configure</a>
         </div>
       </>
     ),
@@ -186,6 +183,8 @@ const data = [
 ];
 
 function Devices() {
+  const onChange = (e) => console.log(`radio checked:${e.target.value}`);
+
   return (
     <>
       <div className="tabled">
@@ -194,10 +193,10 @@ function Devices() {
             <Card
               bordered={false}
               className="criclebox tablespace mb-24"
-              title="Authors Table"
+              title="Devices list"
               extra={
                 <>
-                  <Radio.Group>
+                  <Radio.Group onChange={onChange} defaultValue="a">
                     <Radio.Button value="a">All</Radio.Button>
                     <Radio.Button value="b">ONLINE</Radio.Button>
                   </Radio.Group>
