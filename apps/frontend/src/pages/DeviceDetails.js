@@ -19,7 +19,7 @@ export default function DeviceDetails(props) {
                             </li>
                             <li>
                                 <label>{<h4 className="font-semibold m-0">Description</h4>}</label>
-                                <TextArea showCount maxLength={255} placeholder={"description"} defaultValue={""}/>
+                                <TextArea showCount maxLength={255} placeholder={"description"} rows={3} defaultValue={""}/>
                             </li>
                         </ul>
                     </Card>
