@@ -20,6 +20,8 @@ import {
   Typography,
 } from "antd";
 
+import { NavLink } from "react-router-dom";
+
 // Images
 import deviceImage from "../assets/images/device.png";
 
@@ -64,7 +66,11 @@ const data = [
             src={deviceImage}
           />
           <div className="avatar-info">
-            <Title level={5}>Device name</Title>
+            <Title level={5}>
+              <NavLink to="/devices/1">
+                Device name
+              </NavLink>
+            </Title>
           </div>
         </Avatar.Group>{" "}
       </>
@@ -107,7 +113,11 @@ const data = [
             src={deviceImage}
           />
           <div className="avatar-info">
-            <Title level={5}>Device name</Title>
+            <Title level={5}>
+              <NavLink to="/devices/2">
+                Device name
+              </NavLink>
+            </Title>
           </div>
         </Avatar.Group>{" "}
       </>
@@ -150,7 +160,11 @@ const data = [
             src={deviceImage}
           />
           <div className="avatar-info">
-            <Title level={5}>Device name</Title>
+            <Title level={5}>
+              <NavLink to="/devices/3">
+                Device name
+              </NavLink>
+            </Title>
           </div>
         </Avatar.Group>{" "}
       </>

@@ -30,7 +30,7 @@ function Header({name, subName,}) {
               <span>Pages</span>
             </Breadcrumb.Item>
             <Breadcrumb.Item style={{textTransform: "capitalize"}}>
-              {name.replace("/", "")}
+              {name.replace("/", " / ")}
             </Breadcrumb.Item>
           </Breadcrumb>
           <div className="ant-page-header-heading">
@@ -38,7 +38,7 @@ function Header({name, subName,}) {
               className="ant-page-header-heading-title"
               style={{textTransform: "capitalize"}}
             >
-              {subName.replace("/", "")}
+              {subName.replace("/", " ")}
             </span>
           </div>
         </Col>
