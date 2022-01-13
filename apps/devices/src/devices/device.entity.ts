@@ -12,6 +12,15 @@ enum DeviceState {
   CONFIGURED = 'CONFIGURED',
 }
 
+enum DeviceType {
+  TEMPERATURE = 'TEMPERATURE',
+  HUMIDITY = 'HUMIDITY',
+  LIGHT = 'LIGHT',
+  PRESSURE = 'PRESSURE',
+  CO2 = 'CO2',
+  DOOR = 'DOOR',
+}
+
 @Entity()
 export class Device {
   @PrimaryColumn({ unique: true })
@@ -25,6 +34,10 @@ export class Device {
   @Column({ nullable: true })
   @ApiProperty({ example: 'On the wall' })
   description: string;
+
+  @Column({ nullable: true })
+  @ApiProperty({ example: DeviceType.TEMPERATURE })
+  type: DeviceType;
 
   @CreateDateColumn()
   createdAt: Date;
