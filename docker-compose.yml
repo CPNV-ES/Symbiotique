@@ -33,6 +33,17 @@ services:
     volumes:
       - ./apps/devices:/usr/src/app
       - /usr/src/app/node_modules
+  devices-auth:
+    container_name: devices-auth
+    build:
+      context: .
+      dockerfile: ./apps/devices-auth/Dockerfile
+    command: yarn run start
+    ports:
+      - 3003:3000
+    volumes:
+      - ./apps/devices-auth:/usr/src/app
+      - /usr/src/app/node_modules
   auth-db:
     container_name: auth-db
     image: postgres:14
