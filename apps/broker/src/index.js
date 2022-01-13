@@ -1,8 +1,21 @@
 const aedes = require("aedes")();
 const server = require("net").createServer(aedes.handle);
+const axios = require("axios").default;
 
-aedes.authenticate = (client, username, password, callback) => {
+aedes.authenticate = async (client, username, password, callback) => {
   console.log(`client ${client.id} sent an authentication request`);
+
+  try {
+    await axios.get(`http://devices:3000/devices/${client.id}`);
+  } catch (e) {
+    if (e.response.status === 404) {
+      // If the device does not exist in the devices database, create a new one
+      await axios.post(`http://devices:3000/devices`, {
+        clientId: client.id,
+      });
+    }
+  }
+
   callback(null, true);
 };
 
@@ -15,7 +28,7 @@ aedes.on("subscribe", (subscriptions, client) => {
 });
 
 aedes.on("publish", (packet, client) => {
-  if (packet.topic === "temperature") {
+  if (client) {
     console.log(
       `client ${client.id} sent value: ${packet.payload.toString()} topic : ${
         packet.topic

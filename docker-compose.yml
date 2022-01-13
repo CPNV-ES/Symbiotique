@@ -16,13 +16,67 @@ services:
     build:
       context: .
       dockerfile: ./apps/auth/Dockerfile
-    command: yarn run start:debug
+    command: yarn run start
     ports:
       - 3001:3001
-      - 9229:9229
     volumes:
       - ./apps/auth:/usr/src/app
       - /usr/src/app/node_modules
+  devices:
+    container_name: devices
+    build:
+      context: .
+      dockerfile: ./apps/devices/Dockerfile
+    command: yarn run start
+    ports:
+      - 3002:3000
+    volumes:
+      - ./apps/devices:/usr/src/app
+      - /usr/src/app/node_modules
+  devices-auth:
+    container_name: devices-auth
+    build:
+      context: .
+      dockerfile: ./apps/devices-auth/Dockerfile
+    command: yarn run start
+    ports:
+      - 3003:3000
+    volumes:
+      - ./apps/devices-auth:/usr/src/app
+      - /usr/src/app/node_modules
+  auth-db:
+    container_name: auth-db
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=auth
+      - POSTGRES_PASSWORD=auth
+      - POSTGRES_DB=auth
+    volumes:
+      - auth-db:/var/lib/postgres/data
+    ports:
+      - 5432:5432
+  devices-db:
+    container_name: devices-db
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=devices
+      - POSTGRES_PASSWORD=devices
+      - POSTGRES_DB=devices
+    volumes:
+      - devices-db:/var/lib/postgres/data
+    ports:
+      - 5433:5432
+  devices-auth-db:
+    container_name: devices-auth-db
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=devices-auth
+      - POSTGRES_PASSWORD=devices-auth
+      - POSTGRES_DB=devices-auth
+    volumes:
+      - devices-auth-db:/var/lib/postgres/data
+    ports:
+      - 5434:5432
   frontend:
     container_name: frontend
     build:
@@ -34,3 +88,8 @@ services:
     volumes:
       - ./apps/frontend:/usr/src/app
       - /usr/src/app/node_modules
+
+volumes:
+  auth-db:
+  devices-db:
+  devices-auth-db:
