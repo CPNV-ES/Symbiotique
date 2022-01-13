@@ -25,7 +25,7 @@ function App() {
         <Main>
           <Route exact path="/dashboard" component={Home} />
           <Route exact path="/devices" component={Devices} />
-          <Route exact path="/devices/:id" children={Details} />
+          <Route exact path="/devices/:id" component={Details} />
         </Main>
       </Switch>
     </div>
