@@ -7,9 +7,14 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-enum DeviceState {
+export enum DeviceState {
   NOT_CONFIGURED = 'NOT_CONFIGURED',
   CONFIGURED = 'CONFIGURED',
+  /**
+   * This state will be set when the device tried to connect to the server but
+   * the credentials used (username and password) are invalid.
+   */
+  AUTHENTICATION_FAILED = 'AUTHENTICATION_FAILED',
 }
 
 enum DeviceType {
