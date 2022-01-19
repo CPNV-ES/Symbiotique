@@ -6,6 +6,7 @@ import {
   Res,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/sign-in.dto';
@@ -15,6 +16,14 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/sign-in')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Authentication successful',
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized',
+  })
   async signIn(@Body() signInDto: SignInDto, @Res() res: Response) {
     const { username, password } = signInDto;
 
