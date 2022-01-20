@@ -18,15 +18,21 @@ import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
 
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
+
 function App() {
   return (
     <div className="App">
       <Switch>
-        <Main>
-          <Route exact path="/dashboard" component={Home} />
-          <Route exact path="/devices" component={Devices} />
-          <Route exact path="/devices/:id" component={Details} />
-        </Main>
+        <QueryClientProvider client={queryClient}>
+          <Main>
+            <Route exact path="/dashboard" component={Home} />
+            <Route exact path="/devices" component={Devices} />
+            <Route exact path="/devices/:id" component={Details} />
+          </Main>
+          </QueryClientProvider>
       </Switch>
     </div>
   );
