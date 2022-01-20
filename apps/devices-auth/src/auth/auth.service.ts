@@ -12,12 +12,12 @@ export class AuthService {
   ) {}
 
   async signIn(username: string, password: string): Promise<boolean> {
-    const user = await this.credentialRepository.findOne(username);
+    const credentials = await this.credentialRepository.findOne(username);
 
-    if (!user) {
+    if (!credentials) {
       return false;
     }
 
-    return await compare(password, user.password);
+    return await compare(password, credentials.password);
   }
 }
