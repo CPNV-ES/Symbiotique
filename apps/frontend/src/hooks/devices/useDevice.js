@@ -1,6 +1,6 @@
 import {  useQuery } from 'react-query'
 
-export const getDeviceById = async (deviceId) => {
+const getDeviceById = async (deviceId) => {
     let res = await fetch(`http://localhost:3002/devices/${deviceId}`)
 
     let data = await res.json()
