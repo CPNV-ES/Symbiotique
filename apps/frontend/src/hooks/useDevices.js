@@ -6,6 +6,6 @@ const getDevices = async () => {
   return data;
 };
 
-export const useDevices = (option = {}) => {
-  return useQuery(["devices"], getDevices, option);
+export const useDevices = (options = {}) => {
+  return useQuery(["devices"], getDevices, options);
 };
