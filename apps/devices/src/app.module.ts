@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
+import { DevicesModule } from './devices/devices.module';
 
 @Module({
   imports: [
@@ -12,16 +10,15 @@ import { AuthModule } from './auth/auth.module';
       type: 'postgres',
       // This is the name of the service inside the docker-compose file, we
       // should load the module config from env variables.
-      host: 'auth-db',
+      host: 'devices-db',
       port: 5432,
-      username: 'auth',
-      password: 'auth',
-      database: 'auth',
+      username: 'devices',
+      password: 'devices',
+      database: 'devices',
       autoLoadEntities: true,
       synchronize: process.env.NODE_ENV !== 'production',
     }),
-    UsersModule,
-    AuthModule,
+    DevicesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

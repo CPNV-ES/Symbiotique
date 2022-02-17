@@ -17,17 +17,22 @@ import Home from "./pages/Home";
 import Devices from "./pages/Devices";
 import Main from "./components/layout/Main";
 import Device from "./pages/Device";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <div className="App">
       <Switch>
-        <Main>
-          <Route exact path="/dashboard" component={Home}/>
-          <Route exact path="/devices" component={Devices}/>
-          <Route path="/devices/:id" component={Device}/>
-          <Redirect from="*" to="/dashboard" />
-        </Main>
+        <QueryClientProvider client={queryClient}>
+          <Main>
+            <Route exact path="/dashboard" component={Home} />
+            <Route exact path="/devices" component={Devices} />
+            <Route path="/devices/:id" component={Device} />
+            <Redirect from="*" to="/dashboard" />
+          </Main>
+        </QueryClientProvider>
       </Switch>
     </div>
   );
