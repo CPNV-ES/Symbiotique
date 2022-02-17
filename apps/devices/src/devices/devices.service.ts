@@ -15,6 +15,7 @@ export class DevicesService {
   create(createDeviceDto: CreateDeviceDto) {
     const device = new Device();
     device.clientId = createDeviceDto.clientId;
+    device.state = createDeviceDto.state;
 
     return this.devicesRepository.save(device);
   }

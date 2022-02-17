@@ -7,9 +7,14 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-enum DeviceState {
+export enum DeviceState {
   NOT_CONFIGURED = 'NOT_CONFIGURED',
   CONFIGURED = 'CONFIGURED',
+  /**
+   * This state will be set when the device tried to connect to the server but
+   * the credentials used (username and password) are invalid.
+   */
+  AUTHENTICATION_FAILED = 'AUTHENTICATION_FAILED',
 }
 
 enum DeviceType {
@@ -36,7 +41,7 @@ export class Device {
   description: string;
 
   @Column({ nullable: true })
-  @ApiProperty({ example: DeviceType.TEMPERATURE })
+  @ApiProperty({ example: DeviceType.TEMPERATURE, enum: DeviceType })
   type: DeviceType;
 
   @CreateDateColumn()
@@ -46,6 +51,6 @@ export class Device {
   updatedAt: Date;
 
   @Column({ default: DeviceState.NOT_CONFIGURED })
-  @ApiProperty({ example: DeviceState.NOT_CONFIGURED })
+  @ApiProperty({ example: DeviceState.NOT_CONFIGURED, enum: DeviceState })
   state: DeviceState;
 }

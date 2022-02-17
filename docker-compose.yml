@@ -16,7 +16,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/auth/Dockerfile
-    command: yarn run start
+    command: yarn run start:dev
     ports:
       - 3001:3001
     volumes:
@@ -27,7 +27,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/devices/Dockerfile
-    command: yarn run start
+    command: yarn run start:dev
     ports:
       - 3002:3000
     volumes:
@@ -38,7 +38,7 @@ services:
     build:
       context: .
       dockerfile: ./apps/devices-auth/Dockerfile
-    command: yarn run start
+    command: yarn run start:dev
     ports:
       - 3003:3000
     volumes:
