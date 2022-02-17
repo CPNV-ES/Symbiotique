@@ -136,7 +136,11 @@ function Devices() {
                       registered: (
                         <>
                           <div className="ant-employed">
-                            <span>23/04/18</span>
+                            <span>
+                              {device.state === "CONFIGURED"
+                                ? device.createdAt // Should be changed
+                                : "N/A"}
+                            </span>
                             {device.state === "CONFIGURED" ? (
                               <NavLink to={`/devices/${device.clientId}`}>
                                 Edit
