@@ -1,6 +1,7 @@
 const aedes = require("aedes")();
 const server = require("net").createServer(aedes.handle);
-const axios = require("axios").default;
+
+const credentials = {};
 
 /**
  * @param {string} username
@@ -9,36 +10,26 @@ const axios = require("axios").default;
 aedes.authenticate = async (client, username, password, callback) => {
   console.log(`client ${client.id} sent an authentication request`);
 
-  try {
-    await axios.post("http://devices-auth:3000/auth/sign-in", {
-      username,
-      password: password.toString(),
-    });
-
-    await axios.patch(`http://devices:3000/devices/${client.id}`, {
-      state: "NOT_CONFIGURED",
-    });
-  } catch (e) {
-    await axios.post("http://devices:3000/devices", {
-      clientId: client.id,
-      state: "AUTHENTICATION_FAILED",
-    });
-
-    return callback(null, false);
+  if (client.id.startsWith("mqttjs_")) {
+    return callback(null, true);
   }
 
-  try {
-    await axios.get(`http://devices:3000/devices/${client.id}`);
-  } catch (e) {
-    if (e.response.status === 404) {
-      // If the device does not exist in the devices database, create a new one
-      await axios.post(`http://devices:3000/devices`, {
-        clientId: client.id,
-      });
-    }
-  }
+  if (
+    username === credentials.username &&
+    password.toString() === credentials.password
+  ) {
+    aedes.publish({
+      topic: "v1/authentication/device",
+      payload: Buffer.from(JSON.stringify({ clientId: client.id })),
+      qos: 0,
+    });
 
-  callback(null, true);
+    callback(null, true);
+  } else {
+    console.log(`Wrong credentials`);
+
+    callback(null, false);
+  }
 };
 
 aedes.on("subscribe", (subscriptions, client) => {
@@ -50,12 +41,16 @@ aedes.on("subscribe", (subscriptions, client) => {
 });
 
 aedes.on("publish", (packet, client) => {
-  if (client) {
-    console.log(
-      `client ${client.id} sent value: ${packet.payload.toString()} topic : ${
-        packet.topic
-      }`
+  if (packet.topic === "v1/devices-auth/credentials") {
+    const { username, password } = JSON.parse(
+      JSON.parse(packet.payload.toString()).data
     );
+
+    if (!username || !password) {
+      console.log("Could not load credentials");
+    }
+
+    Object.assign(credentials, { username, password });
   }
 });
 
@@ -63,4 +58,12 @@ const port = 1883;
 
 server.listen(port, () => {
   console.log("server started and listening on port ", port);
+
+  setTimeout(() => {
+    // Request credentials in order to authenticate the new devices
+    aedes.publish({
+      topic: "v1/devices-auth/request-credentials",
+      qos: 0,
+    });
+  }, 3000);
 });

@@ -11,6 +11,7 @@ export const config: ConnectionOptions = {
   synchronize: true,
 
   migrationsRun: true,
+  entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   cli: {
     migrationsDir: 'src/migrations',

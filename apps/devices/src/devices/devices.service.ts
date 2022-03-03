@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Device } from './device.entity';
@@ -25,17 +25,11 @@ export class DevicesService {
   }
 
   async findOneByClientId(clientId: string) {
-    const device = await this.devicesRepository.findOne({
+    return await this.devicesRepository.findOne({
       where: {
         clientId,
       },
     });
-
-    if (!device) {
-      throw new NotFoundException();
-    }
-
-    return device;
   }
 
   update(clientId: string, updateDeviceDto: UpdateDeviceDto) {

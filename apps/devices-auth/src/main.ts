@@ -1,19 +1,15 @@
 import { ValidationPipe } from '@nestjs/common';
+import { Transport } from '@nestjs/microservices';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
-  const config = new DocumentBuilder()
-    .setTitle('Devices auth API')
-    .setDescription('Devices auth API')
-    .setVersion('1.0')
-    .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('/', app, document);
+  const app = await NestFactory.createMicroservice(AppModule, {
+    transport: Transport.MQTT,
+    options: {
+      url: 'mqtt://broker:1883',
+    },
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -22,6 +18,6 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(3000);
+  await app.listen();
 }
 bootstrap();

@@ -7,9 +7,11 @@ import {
   Delete,
   HttpStatus,
   Patch,
+  NotFoundException,
 } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
 import { ApiResponse } from '@nestjs/swagger';
-import { Device } from './device.entity';
+import { Device, DeviceState } from './device.entity';
 import { DevicesService } from './devices.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
@@ -45,7 +47,13 @@ export class DevicesController {
     type: Device,
   })
   findOne(@Param('clientId') clientId: string) {
-    return this.devicesService.findOneByClientId(clientId);
+    const device = this.devicesService.findOneByClientId(clientId);
+
+    if (!device) {
+      throw new NotFoundException();
+    }
+
+    return device;
   }
 
   @Patch(':clientId')
@@ -68,5 +76,18 @@ export class DevicesController {
   })
   remove(@Param('clientId') clientId: string) {
     return this.devicesService.remove(clientId);
+  }
+
+  @MessagePattern('v1/authentication/device')
+  async registerNewDevice(@Body() body) {
+    const { clientId } = body;
+    const device = await this.devicesService.findOneByClientId(clientId);
+
+    if (!device) {
+      this.devicesService.create({
+        clientId,
+        state: DeviceState.NOT_CONFIGURED,
+      });
+    }
   }
 }

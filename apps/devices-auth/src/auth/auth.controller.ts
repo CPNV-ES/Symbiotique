@@ -1,38 +1,21 @@
-import {
-  Body,
-  Controller,
-  HttpStatus,
-  Post,
-  Res,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
-import { Response } from 'express';
+import { Controller, Inject } from '@nestjs/common';
+import { MessagePattern, ClientProxy } from '@nestjs/microservices';
 import { AuthService } from './auth.service';
-import { SignInDto } from './dto/sign-in.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    @Inject('BROKER') private readonly client: ClientProxy,
+  ) {}
 
-  @Post('/sign-in')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Authentication successful',
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: 'Unauthorized',
-  })
-  async signIn(@Body() signInDto: SignInDto, @Res() res: Response) {
-    const { username, password } = signInDto;
+  @MessagePattern('v1/devices-auth/request-credentials')
+  async requestCredentials() {
+    const credentials = await this.authService.findOne();
 
-    const isSignedIn = await this.authService.signIn(username, password);
-
-    if (!isSignedIn) {
-      throw new UnauthorizedException();
-    }
-
-    res.status(HttpStatus.OK).json({});
+    this.client.emit(
+      'v1/devices-auth/credentials',
+      JSON.stringify(credentials),
+    );
   }
 }
