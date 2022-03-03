@@ -10,15 +10,11 @@
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import {useEffect} from "react";
+import { useEffect } from "react";
 
-import {
-  Row,
-  Col,
-  Breadcrumb,
-} from "antd";
+import { Row, Col, Breadcrumb } from "antd";
 
-function Header({name, subName,}) {
+function Header({ name, subName }) {
   useEffect(() => window.scrollTo(0, 0));
 
   return (
@@ -29,16 +25,16 @@ function Header({name, subName,}) {
             <Breadcrumb.Item>
               <span>Pages</span>
             </Breadcrumb.Item>
-            <Breadcrumb.Item style={{textTransform: "capitalize"}}>
+            <Breadcrumb.Item style={{ textTransform: "capitalize" }}>
               {name.replace("/", " / ")}
             </Breadcrumb.Item>
           </Breadcrumb>
           <div className="ant-page-header-heading">
             <span
               className="ant-page-header-heading-title"
-              style={{textTransform: "capitalize"}}
+              style={{ textTransform: "capitalize" }}
             >
-              {subName.replace("/", " ")}
+              {subName.replace("/", " / ")}
             </span>
           </div>
         </Col>
