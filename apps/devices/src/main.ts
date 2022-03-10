@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -7,6 +8,16 @@ async function bootstrap() {
 
   app.enableCors({
     origin: '*',
+  });
+
+  app.connectMicroservice({
+    transport: Transport.MQTT,
+    options: {
+      clientId: 'devices',
+      username: 'devices',
+      password: 'devices',
+      url: 'mqtt://broker:1883',
+    },
   });
 
   const config = new DocumentBuilder()
@@ -17,6 +28,8 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/', app, document);
+
+  await app.startAllMicroservices();
 
   await app.listen(3000);
 }
