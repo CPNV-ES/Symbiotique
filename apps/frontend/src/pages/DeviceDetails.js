@@ -73,7 +73,7 @@ export default function DeviceDetails(props) {
                                         </ul>
                                     )}
 
-                                <Button type="primary" htmlType="submit" disabled={updateDevice.isLoading} onClick={handleSubmit} >
+                                <Button type="primary" htmlType="submit" style={{width: '100%'}} disabled={updateDevice.isLoading || defaultDeviceState === device} onClick={handleSubmit} >
                                     {updateDevice.isLoading ? 'En cours de mise à jour...' : 'Mettre à jour'}
                                 </Button>
                             </form>
