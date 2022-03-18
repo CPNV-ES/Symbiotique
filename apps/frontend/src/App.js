@@ -10,14 +10,14 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 import { Switch, Route, Redirect } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
 import Home from "./pages/Home";
 import Devices from "./pages/Devices";
 import Main from "./components/layout/Main";
-import Device from "./pages/Device";
-import { QueryClient, QueryClientProvider } from "react-query";
+import Device from "./pages/DeviceDetails";
 
 const queryClient = new QueryClient();
 

@@ -58,11 +58,10 @@ const columns = [
 ];
 
 function Devices() {
-  const onChange = (e) => console.log(`radio checked:${e.target.value}`);
-
   const [devices, setDevices] = useState([]);
-
   const { status } = useDevices({ onSuccess: setDevices });
+
+  const onChange = (e) => console.log(`radio checked:${e.target.value}`);
 
   if (status === "loading") {
     return <Spin />;
