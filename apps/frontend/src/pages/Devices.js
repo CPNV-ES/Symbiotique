@@ -18,12 +18,16 @@ import {
   Button,
   Avatar,
   Typography,
+  Spin,
 } from "antd";
 
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useState } from "react";
 
 // Images
 import deviceImage from "../assets/images/device.png";
+
+import { useDevices } from "../hooks/useDevices";
 
 const { Title } = Typography;
 
@@ -53,139 +57,15 @@ const columns = [
   },
 ];
 
-const data = [
-  {
-    key: "1",
-    name: (
-      <>
-        <Avatar.Group>
-          <Avatar
-            className="shape-avatar"
-            shape="square"
-            size={40}
-            src={deviceImage}
-          />
-          <div className="avatar-info">
-            <Title level={5}>Device name</Title>
-          </div>
-        </Avatar.Group>{" "}
-      </>
-    ),
-    function: (
-      <>
-        <div className="author-info">
-          <Title level={5}>Door sensor</Title>
-          <p>Kitchen</p>
-        </div>
-      </>
-    ),
-
-    status: (
-      <>
-        <Button type="primary" className="tag-primary">
-          ONLINE
-        </Button>
-      </>
-    ),
-    registered: (
-      <>
-        <div className="ant-employed">
-          <span>23/04/18</span>
-          <Link to={"/devices/1"}>Edit</Link>
-        </div>
-      </>
-    ),
-  },
-
-  {
-    key: "2",
-    name: (
-      <>
-        <Avatar.Group>
-          <Avatar
-            className="shape-avatar"
-            shape="square"
-            size={40}
-            src={deviceImage}
-          />
-          <div className="avatar-info">
-            <Title level={5}>Device name</Title>
-          </div>
-        </Avatar.Group>{" "}
-      </>
-    ),
-    function: (
-      <>
-        <div className="author-info">
-          <Title level={5}>Temperature sensor</Title>
-          <p>Bathroom</p>
-        </div>
-      </>
-    ),
-
-    status: (
-      <>
-        <Button type="primary" className="tag-primary">
-          ONLINE
-        </Button>
-      </>
-    ),
-    registered: (
-      <>
-        <div className="ant-employed">
-          <span>23/04/18</span>
-          <Link to={"/devices/2"}>Edit</Link>
-        </div>
-      </>
-    ),
-  },
-
-  {
-    key: "3",
-    name: (
-      <>
-        <Avatar.Group>
-          <Avatar
-            className="shape-avatar"
-            shape="square"
-            size={40}
-            src={deviceImage}
-          />
-          <div className="avatar-info">
-            <Title level={5}>Device name</Title>
-          </div>
-        </Avatar.Group>{" "}
-      </>
-    ),
-    function: (
-      <>
-        <div className="author-info">
-          <Title level={5}>Movement sensor</Title>
-          <p>Garden</p>
-        </div>
-      </>
-    ),
-
-    status: (
-      <>
-        <Button className="tag-badge">
-          OFFLINE
-        </Button>
-      </>
-    ),
-    registered: (
-      <>
-        <div className="ant-employed">
-          <span>N/A</span>
-          <Link to={""}>Configure</Link>
-        </div>
-      </>
-    ),
-  },
-];
-
 function Devices() {
+  const [devices, setDevices] = useState([]);
+  const { status } = useDevices({ onSuccess: setDevices });
+
   const onChange = (e) => console.log(`radio checked:${e.target.value}`);
+
+  if (status === "loading") {
+    return <Spin />;
+  }
 
   return (
     <>
@@ -208,8 +88,59 @@ function Devices() {
               <div className="table-responsive">
                 <Table
                   columns={columns}
-                  dataSource={data}
-                  pagination={false}
+                  dataSource={devices.map((device) => {
+                    return {
+                      key: device.clientId,
+                      name: (
+                        <>
+                          <NavLink to={`/devices/${device.clientId}`}>
+                            <Avatar.Group>
+                              <Avatar
+                                className="shape-avatar"
+                                shape="square"
+                                size={40}
+                                src={deviceImage}
+                              />
+                              <div className="avatar-info">
+                                <Title level={5}>{device.name}</Title>
+                              </div>
+                            </Avatar.Group>
+                          </NavLink>
+                        </>
+                      ),
+                      function: (
+                        <>
+                          <div className="author-info">
+                            <Title level={5}>{device.type}</Title>
+                            <p>{device.description}</p>
+                          </div>
+                        </>
+                      ),
+
+                      status: (
+                        <>
+                          <Button type="primary" className="tag-primary">
+                            {device.state}
+                          </Button>
+                        </>
+                      ),
+                      registered: (
+                        <>
+                          <div className="ant-employed">
+                            <span>
+                              {device.state === "CONFIGURED"
+                                ? device.createdAt // Should be changed
+                                : "N/A"}
+                            </span>
+                            <NavLink to={`/devices/${device.clientId}/edit`}>
+                              Configure
+                            </NavLink>
+                          </div>
+                        </>
+                      ),
+                    };
+                  })}
+                  pagination={true}
                   className="ant-border-space"
                 />
               </div>

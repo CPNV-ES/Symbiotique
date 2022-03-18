@@ -10,14 +10,13 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 import { Switch, Route, Redirect } from "react-router-dom";
-import Home from "./pages/Home";
-import Devices from "./pages/Devices";
-import Details from "./pages/DeviceDetails";
-import Main from "./components/layout/Main";
 import "antd/dist/antd.css";
 import "./assets/styles/main.css";
 import "./assets/styles/responsive.css";
-
+import Home from "./pages/Home";
+import Devices from "./pages/Devices";
+import Main from "./components/layout/Main";
+import Device from "./pages/Device";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();
@@ -30,9 +29,10 @@ function App() {
           <Main>
             <Route exact path="/dashboard" component={Home} />
             <Route exact path="/devices" component={Devices} />
-            <Route exact path="/devices/:id" component={Details} />
+            <Route path="/devices/:id" component={Device} />
+            <Redirect from="*" to="/dashboard" />
           </Main>
-          </QueryClientProvider>
+        </QueryClientProvider>
       </Switch>
     </div>
   );
