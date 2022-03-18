@@ -94,27 +94,19 @@ function Devices() {
                       key: device.clientId,
                       name: (
                         <>
-                          <Avatar.Group>
-                            <Avatar
-                              className="shape-avatar"
-                              shape="square"
-                              size={40}
-                              src={deviceImage}
-                            />
-                            <div className="avatar-info">
-                              <Title level={5}>
-                                <NavLink
-                                  to={`/devices/${
-                                    device.state === "CONFIGURED"
-                                      ? device.clientId
-                                      : "new"
-                                  }`}
-                                >
-                                  {device.name}
-                                </NavLink>
-                              </Title>
-                            </div>
-                          </Avatar.Group>
+                          <NavLink to={`/devices/${device.clientId}`}>
+                            <Avatar.Group>
+                              <Avatar
+                                className="shape-avatar"
+                                shape="square"
+                                size={40}
+                                src={deviceImage}
+                              />
+                              <div className="avatar-info">
+                                <Title level={5}>{device.name}</Title>
+                              </div>
+                            </Avatar.Group>
+                          </NavLink>
                         </>
                       ),
                       function: (
@@ -141,19 +133,15 @@ function Devices() {
                                 ? device.createdAt // Should be changed
                                 : "N/A"}
                             </span>
-                            {device.state === "CONFIGURED" ? (
-                              <NavLink to={`/devices/${device.clientId}`}>
-                                Edit
-                              </NavLink>
-                            ) : (
-                              <NavLink to={`/devices/new`}>Configure</NavLink>
-                            )}
+                            <NavLink to={`/devices/${device.clientId}/edit`}>
+                              Configure
+                            </NavLink>
                           </div>
                         </>
                       ),
                     };
                   })}
-                  pagination={false}
+                  pagination={true}
                   className="ant-border-space"
                 />
               </div>
