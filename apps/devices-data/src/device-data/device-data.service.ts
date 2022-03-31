@@ -21,7 +21,7 @@ export class DeviceDataService {
     const average = await this.devicesDataRepository
       .createQueryBuilder()
       .select(
-        `time_bucket('5 minutes', time) AS timestamp, avg(temperature) AS average_temperature`,
+        `time_bucket('5 minutes', time) AS timestamp, avg(temperature) AS temperature_average`,
       )
       .groupBy('timestamp')
       .getRawMany();
