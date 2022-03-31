@@ -17,7 +17,15 @@ export class DeviceDataService {
     return this.devicesDataRepository.save(deviceData);
   }
 
-  temperatureAverage(clientId: string) {
-    return clientId;
+  async temperatureAverage() {
+    const average = await this.devicesDataRepository
+      .createQueryBuilder()
+      .select(
+        `time_bucket('5 minutes', time) AS timestamp, avg(temperature) AS average_temperature`,
+      )
+      .groupBy('timestamp')
+      .getRawMany();
+
+    return average;
   }
 }

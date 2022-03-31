@@ -12,7 +12,7 @@ export class DeviceDataController {
   }
 
   @Get('/:clientId/temperature-average')
-  temperatureAverage(@Param('clientId') clientId: string): string {
-    return this.deviceDataService.temperatureAverage(clientId);
+  temperatureAverage(@Param('clientId') clientId: string) {
+    return this.deviceDataService.temperatureAverage();
   }
 }

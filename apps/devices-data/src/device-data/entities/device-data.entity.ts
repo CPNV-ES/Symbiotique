@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity({ synchronize: true, withoutRowid: true })
+@Entity({ synchronize: true, withoutRowid: true, name: 'device_data' })
 export class DeviceData {
   @ApiProperty()
   @PrimaryColumn()
