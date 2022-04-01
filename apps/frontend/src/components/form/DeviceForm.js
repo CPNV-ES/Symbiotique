@@ -7,14 +7,14 @@ import {
   notification,
   Alert,
 } from "antd";
-import { useEffect } from "react";
+
 import DeviceType from "../../constants/DeviceType";
 import { useDevice } from "../../hooks/devices/useDevice";
 import { useUpdateDevice } from "../../hooks/devices/useUpdateDevice";
 
 export default function DeviceForm(props) {
   const { deviceId } = props;
-  const { isLoading, isError, data, error } = useDevice(deviceId);
+  const { isLoading, isError, data } = useDevice(deviceId);
 
   const deviceMutation = useUpdateDevice(deviceId);
 
@@ -37,32 +37,26 @@ export default function DeviceForm(props) {
       "device-type",
     ]);
 
-    delete Object.assign(data, { ["clientId"]: data["device-id"] })[
-      "device-id"
-    ];
-    delete Object.assign(data, { ["name"]: data["device-name"] })[
-      "device-name"
-    ];
-    delete Object.assign(data, { ["description"]: data["device-description"] })[
+    delete Object.assign(data, { clientId: data["device-id"] })["device-id"];
+    delete Object.assign(data, { name: data["device-name"] })["device-name"];
+    delete Object.assign(data, { description: data["device-description"] })[
       "device-description"
     ];
-    delete Object.assign(data, { ["type"]: data["device-type"] })[
-      "device-type"
-    ];
+    delete Object.assign(data, { type: data["device-type"] })["device-type"];
 
     deviceMutation.mutate(data, {
       onSuccess: () => {
         openNotificationWithIcon(
           "success",
-          "Mise à jour",
-          "Le device a bien été mis à jour"
+          "Update",
+          "The device has been updated successfully"
         );
       },
       onError: () => {
         openNotificationWithIcon(
           "error",
-          "une erreur s'est produite",
-          "Veuillez réssayer plus tard"
+          "An error occured",
+          "Please try again later"
         );
       },
     });

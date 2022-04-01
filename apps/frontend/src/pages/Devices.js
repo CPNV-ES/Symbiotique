@@ -9,17 +9,7 @@
 =========================================================
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import {
-  Row,
-  Col,
-  Card,
-  Radio,
-  Table,
-  Button,
-  Avatar,
-  Typography,
-  Spin,
-} from "antd";
+import { Row, Col, Card, Table, Button, Avatar, Typography, Spin } from "antd";
 
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
@@ -27,7 +17,7 @@ import { useState } from "react";
 // Images
 import deviceImage from "../assets/images/device.png";
 
-import { useDevices } from "../hooks/useDevices";
+import { useDevices } from "../hooks/devices/useDevices";
 
 const { Title } = Typography;
 
@@ -61,8 +51,6 @@ function Devices() {
   const [devices, setDevices] = useState([]);
   const { status } = useDevices({ onSuccess: setDevices });
 
-  const onChange = (e) => console.log(`radio checked:${e.target.value}`);
-
   if (status === "loading") {
     return <Spin />;
   }
@@ -76,14 +64,6 @@ function Devices() {
               bordered={false}
               className="criclebox tablespace mb-24"
               title="Devices list"
-              extra={
-                <>
-                  <Radio.Group onChange={onChange} defaultValue="a">
-                    <Radio.Button value="a">All</Radio.Button>
-                    <Radio.Button value="b">ONLINE</Radio.Button>
-                  </Radio.Group>
-                </>
-              }
             >
               <div className="table-responsive">
                 <Table

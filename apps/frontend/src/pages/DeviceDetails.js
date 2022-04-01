@@ -1,4 +1,4 @@
-import { Row, Col, Card, Input, Select, Spin, Button } from "antd";
+import { Row, Col, Card } from "antd";
 import { useParams } from "react-router-dom";
 import DeviceForm from "../components/form/DeviceForm";
 
