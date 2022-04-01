@@ -35,6 +35,7 @@ services:
       - ./apps/devices-auth:/usr/src/app
   devices-data:
     container_name: devices-data
+    image: node:lts
     command:  yarn --cwd /usr/src/app start:dev
     ports:
       - 3004:3000
