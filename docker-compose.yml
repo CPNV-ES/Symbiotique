@@ -44,6 +44,17 @@ services:
     volumes:
       - ./apps/devices-auth:/usr/src/app
       - /usr/src/app/node_modules
+  devices-data:
+    container_name: devices-data
+    build:
+      context: .
+      dockerfile: ./apps/devices-data/Dockerfile
+    command: yarn run start:dev
+    ports:
+      - 3004:3000
+    volumes:
+      - ./apps/devices-data:/usr/src/app
+      - /usr/src/app/node_modules
   auth-db:
     container_name: auth-db
     image: postgres:14
@@ -77,6 +88,17 @@ services:
       - devices-auth-db:/var/lib/postgres/data
     ports:
       - 5434:5432
+  devices-data-db:
+    container_name: devices-data-db
+    image: timescale/timescaledb:latest-pg14
+    environment:
+      - POSTGRES_USER=devices-data
+      - POSTGRES_PASSWORD=devices-data
+      - POSTGRES_DB=devices-data
+    volumes:
+      - devices-data-db:/var/lib/postgres/data
+    ports:
+      - 5435:5432
   frontend:
     container_name: frontend
     build:
@@ -93,3 +115,4 @@ volumes:
   auth-db:
   devices-db:
   devices-auth-db:
+  devices-data-db:
