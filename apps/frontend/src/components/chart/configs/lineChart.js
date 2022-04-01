@@ -1,17 +1,4 @@
 const lineChart = {
-  series: [
-    {
-      name: "Mobile apps",
-      data: [350, 40, 300, 220, 500, 250, 400, 230, 500],
-      offsetY: 0,
-    },
-    {
-      name: "Websites",
-      data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
-      offsetY: 0,
-    },
-  ],
-
   options: {
     chart: {
       width: "100%",
@@ -62,6 +49,7 @@ const lineChart = {
         },
       },
       categories: [
+        "Jan",
         "Feb",
         "Mar",
         "Apr",
@@ -70,7 +58,6 @@ const lineChart = {
         "Jul",
         "Aug",
         "Sep",
-        "Oct",
       ],
     },
 
