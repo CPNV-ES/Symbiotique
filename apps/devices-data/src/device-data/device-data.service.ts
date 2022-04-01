@@ -28,4 +28,16 @@ export class DeviceDataService {
 
     return average;
   }
+
+  async humidityAverage() {
+    const average = await this.devicesDataRepository
+      .createQueryBuilder()
+      .select(
+        `time_bucket('5 minutes', time) AS timestamp, avg(humidity) AS humidity_average`,
+      )
+      .groupBy('timestamp')
+      .getRawMany();
+
+    return average;
+  }
 }

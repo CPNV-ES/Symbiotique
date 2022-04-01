@@ -15,4 +15,8 @@ export class DeviceDataController {
   temperatureAverage(@Param('clientId') clientId: string) {
     return this.deviceDataService.temperatureAverage();
   }
+  @Get('/:clientId/humidity-average')
+  humidityAverage(@Param('clientId') clientId: string) {
+    return this.deviceDataService.humidityAverage();
+  }
 }
