@@ -31,18 +31,14 @@ export class DevicesService {
       },
     });
 
-    if (!device) {
-      throw new NotFoundException();
-    }
-
     return device;
   }
 
   update(clientId: string, updateDeviceDto: UpdateDeviceDto) {
-    this.devicesRepository.update(clientId, updateDeviceDto);
+    return this.devicesRepository.update(clientId, updateDeviceDto);
   }
 
   remove(clientId: string) {
-    this.devicesRepository.delete(clientId);
+    return this.devicesRepository.delete(clientId);
   }
 }
