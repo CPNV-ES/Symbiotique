@@ -1,0 +1,16 @@
+{
+  "name": "broker",
+  "version": "0.1.0",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon ./src/index.js"
+  },
+  "dependencies": {
+    "aedes": "^0.46.1",
+    "axios": "^0.24.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

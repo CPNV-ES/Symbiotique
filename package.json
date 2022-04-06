@@ -2,17 +2,15 @@
   "name": "symbiotique",
   "version": "0.1.0",
   "description": "IOT device management system",
-  "main": "src/index.js",
   "repository": "https://github.com/CPNV-ES/Symbiotique.git",
   "license": "MIT",
   "private": true,
-  "scripts": {
-    "dev": "nodemon src/index.js"
-  },
-  "dependencies": {
-    "aedes": "^0.46.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.15"
+  "workspaces": {
+    "packages": [
+      "apps/*"
+    ],
+    "nohoist": [
+      "**"
+    ]
   }
 }

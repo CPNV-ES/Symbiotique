@@ -1,0 +1,110 @@
+version: "3"
+
+services:
+  broker:
+    container_name: broker
+    image: node:lts
+    command: yarn --cwd /home/node/app dev
+    volumes:
+      - ./apps/broker:/home/node/app
+    ports:
+      - 1883:1883
+  auth:
+    container_name: auth
+    image: node:lts
+    command: yarn --cwd /usr/src/app start:dev
+    ports:
+      - 3001:3001
+    volumes:
+      - ./apps/auth:/usr/src/app
+  devices:
+    container_name: devices
+    image: node:lts
+    command: yarn --cwd /usr/src/app start:dev
+    ports:
+      - 3002:3000
+    volumes:
+      - ./apps/devices:/usr/src/app
+  devices-auth:
+    container_name: devices-auth
+    image: node:lts
+    command: yarn --cwd /usr/src/app start:dev
+    ports:
+      - 3003:3000
+    volumes:
+      - ./apps/devices-auth:/usr/src/app
+  devices-data:
+    container_name: devices-data
+    image: node:lts
+    command:  yarn --cwd /usr/src/app start:dev
+    ports:
+      - 3004:3000
+    volumes:
+      - ./apps/devices-data:/usr/src/app
+  auth-db:
+    container_name: auth-db
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=auth
+      - POSTGRES_PASSWORD=auth
+      - POSTGRES_DB=auth
+    volumes:
+      - auth-db:/var/lib/postgres/data
+    ports:
+      - 5432:5432
+  devices-db:
+    container_name: devices-db
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=devices
+      - POSTGRES_PASSWORD=devices
+      - POSTGRES_DB=devices
+    volumes:
+      - devices-db:/var/lib/postgres/data
+    ports:
+      - 5433:5432
+  devices-auth-db:
+    container_name: devices-auth-db
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=devices-auth
+      - POSTGRES_PASSWORD=devices-auth
+      - POSTGRES_DB=devices-auth
+    volumes:
+      - devices-auth-db:/var/lib/postgres/data
+    ports:
+      - 5434:5432
+  devices-data-db:
+    container_name: devices-data-db
+    image: timescale/timescaledb:latest-pg14
+    environment:
+      - POSTGRES_USER=devices-data
+      - POSTGRES_PASSWORD=devices-data
+      - POSTGRES_DB=devices-data
+    volumes:
+      - devices-data-db:/var/lib/postgres/data
+    ports:
+      - 5435:5432
+  frontend:
+    container_name: frontend
+    image: node:lts
+    command: yarn --cwd /usr/src/app start
+    ports:
+      - 3000:3000
+    volumes:
+      - ./apps/frontend:/usr/src/app
+  gateway:
+    container_name: gateway
+    image: node:lts
+    command: yarn --cwd /var/lib/eg start
+    ports:
+      - 8080:8080
+      - 9876:9876
+    volumes:
+      - ./apps/gateway:/var/lib/eg
+
+volumes:
+  auth-db:
+  devices-db:
+  devices-auth-db:
+  devices-data-db:
